@@ -2,8 +2,9 @@ p = peripheral.wrap("top")
 
 function start()
 	i = 0
+	nb = 1
 	while true do
-		local h = fs.open("combinaison","r")
+		local h = fs.open("combinaison"..nb,"r")
 		adresse = h.readLine(i)
 		state = p.stargateState()
 		if state[0] ~= Offline then
