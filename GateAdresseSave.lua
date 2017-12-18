@@ -11,7 +11,6 @@ function saveAdresse(tableauP)
 	end
 	h.write("\n")
 	h.close()
-	sleep(0)
 end
 
 function checkValid(tableauP,column)
@@ -29,6 +28,9 @@ end
 
 function combinaison(column,tableauP)
 	for column = column, 7 do
+		if column == 6 then
+			sleep(0)
+		end
 		for case = 1, 36 do
 			tableauP[column] = string.char(case+64)
 			if checkValid(tableauP,column) then
