@@ -1,6 +1,7 @@
 function saveAdresse(tableauP,column)
-	if column == 3 then
+	if column == 4 then
 		nb = nb + 1
+		print("combinaison"..nb)
 	end
 	local h = fs.open("combinaison"..nb,"a")
 	for i = 1, #tableauP+1 do
@@ -17,9 +18,11 @@ function saveAdresse(tableauP,column)
 end
 
 function checkValid(tableauP,column)
-tmp = 0
+tmp = tonumber(0)
 	for i = 1, #tableauP do
-		if tableauP[column] == tableauP[i] then
+	tmp1 = string.byte(tableauP[column])
+	tmp2 = string.byte(tableauP[i])
+		if tonumber(tmp1) == tonumber(tmp2) then
 			if tmp == 2 then
 				return false
 			end
@@ -34,7 +37,11 @@ function combinaison(c,tableauP)
 		if c == 6 then
 			sleep(0)
 		end
-		for symbole = 1, 37 do
+		for symbole = 1, 38 do
+			if symbole == 37 then
+				symbole = 1
+				return false
+			end
 			tableauP[c] = string.char(symbole+64)
 			if checkValid(tableauP,c) == true then
 				saveAdresse(tableauP,c)
@@ -45,9 +52,8 @@ function combinaison(c,tableauP)
 end
 
 function start()
+term.clear()
 	term.setCursorPos(1,1)
-	term.clear()
-	i = 1
 	for j = 1, 100 do
 		local h = fs.open("combinaison"..j,"w")
 		h.close()
