@@ -1,5 +1,8 @@
-function saveAdresse(tableauP)
-	local h = fs.open("combinaison","a")
+function saveAdresse(tableauP,column)
+	if column == 3 then
+		nb = nb + 1
+	end
+	local h = fs.open("combinaison"..nb,"a")
 	for i = 1, #tableauP+1 do
 		if i == 5 then
 			h.write("-")
@@ -26,26 +29,18 @@ tmp = 0
 	return true
 end
 
-function combinaison(column,tableauP)
-	for column = column, 7 do
-		if column == 6 then
+function combinaison(c,tableauP)
+	for c = c, 7 do
+		if c == 6 then
 			sleep(0)
 		end
-		for case = 1, 36 do
-			tableauP[column] = string.char(case+64)
-			if checkValid(tableauP,column) then
-				saveAdresse(tableauP)
-				relosv = combinaison(column+1,tableauP)
-				if relosv == true then
-					return false
-				end
-				if case == 36 then
-					tableauP[column] = string.char(65)
-					return false
-				end
+		for symbole = 1, 37 do
+			tableauP[c] = string.char(symbole+64)
+			if checkValid(tableauP,c) == true then
+				saveAdresse(tableauP,c)
+				resolv = combinaison(c+1,tableauP)
 			end
 		end
-		return true
 	end
 end
 
@@ -53,12 +48,15 @@ function start()
 	term.setCursorPos(1,1)
 	term.clear()
 	i = 1
-	local h = fs.open("combinaison","w")
-	h.close()
+	for j = 1, 100 do
+		local h = fs.open("combinaison"..j,"w")
+		h.close()
+	end
 	tableauP = {
 		[0] = {}
 	}
 	combinaison(1,tableauP)
 end
 
+nb = 0
 start()
